@@ -5,6 +5,9 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     [SerializeField]
+    private Camera _mainCam;
+
+    [SerializeField]
     private Rigidbody2D _player1Rb, _player2Rb;
 
     [SerializeField]
@@ -19,7 +22,7 @@ public class CameraMovement : MonoBehaviour
 
     private Vector3 _targetPos;
 
-    private void Start()
+    private void Awake()
     {
         _minBounds = _levelBoundries.bounds.min;
         _maxBounds = _levelBoundries.bounds.max;
@@ -27,7 +30,6 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        
         BoundCameraToMap();
     }
 
@@ -52,12 +54,12 @@ public class CameraMovement : MonoBehaviour
         greaterDistance = (_player1Rb.transform.position - _player2Rb.transform.position).magnitude;
         greaterDistance = Mathf.Clamp(greaterDistance * 2 / 5, _minCamZoom, _maxCamZoom);
 
-        Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, greaterDistance, _zoomSmoothing * Time.fixedDeltaTime);
+        _mainCam.orthographicSize = Mathf.Lerp(_mainCam.orthographicSize, greaterDistance, _zoomSmoothing * Time.fixedDeltaTime);
     }
 
     private void BoundCameraToMap()
     {
-        _camHalfHeight = Camera.main.orthographicSize;
+        _camHalfHeight = _mainCam.orthographicSize;
         _camHalfWidth = _camHalfHeight * Screen.width / Screen.height;
 
         float clampedCamWidth = Mathf.Clamp(transform.position.x, _minBounds.x + _camHalfWidth, _maxBounds.x - _camHalfWidth);
