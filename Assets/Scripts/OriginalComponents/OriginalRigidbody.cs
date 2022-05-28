@@ -14,11 +14,13 @@ public class OriginalRigidbody : MonoBehaviour
     // will affect peformance
     [SerializeField] private float _groundCheckDistance;
     [SerializeField] private float _gravityModifier = 1f;
+    [SerializeField] private float _accelerationSmoothing;
     #endregion
 
     #region Serialized Backing Fields
     [Header("Properties")]
-    [SerializeField] float _velocity;
+    [SerializeField] Vector2 _velocity;
+    [SerializeField] Vector2 _normal;
     [SerializeField] float _mass, _drag;
 
     [Header("Conditions")]
@@ -35,7 +37,8 @@ public class OriginalRigidbody : MonoBehaviour
     #endregion
 
     #region Properties
-    public float Velocity { get => _velocity; set => _velocity = value; }
+    public Vector2 Velocity { get => _velocity; set => _velocity = value; }
+    public Vector2 Normal { get => GetNormal(); set => _normal = value; }
     public float Mass { get => _mass; set => _mass = value; }
     public float Drag { get => _drag; set => _drag = value; }
     public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
@@ -49,6 +52,8 @@ public class OriginalRigidbody : MonoBehaviour
     public bool FreezRotationZ { get => _freezRotationZ; set => _freezRotationZ = value; }
     #endregion
 
+
+    bool testAddForce = false;
     public void Start()
     {
         _useGravity = true;
@@ -61,14 +66,34 @@ public class OriginalRigidbody : MonoBehaviour
         _freezRotationZ = false;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            testAddForce = true;
+        }
+    }
+
     private void FixedUpdate()
     {
+        if (testAddForce)
+        {
+            AddForce(new Vector2(1, 0), OriginalForceMode.Force);
+            testAddForce = false;
+        }
+
         ApplyGravity();
         UpdateKinematic();
         UpdateFreezings();
+        transform.position += (Vector3)Velocity;
     }
 
     #region Private Methods
+    private void CalculateVelocity()
+    {
+        
+    }
+    
     private void UpdateKinematic()
     {
         if (_isKinematic)
@@ -113,29 +138,44 @@ public class OriginalRigidbody : MonoBehaviour
     private void ApplyGravity()
     {
         if (_useGravity && !_isGrounded)
-            transform.position += OriginalPhysics.ScaleGravity * _gravityModifier * Time.fixedDeltaTime;
+            _velocity += Physics2D.gravity * _gravityModifier * Time.fixedDeltaTime;
         else
             return;
+    }
+
+    private Vector2 GetNormal()
+    {
+        Vector2 normal;
+
+        normal = _velocity.normalized;
+        return normal;
     }
     #endregion
 
     #region Public Methods
-    public void AddForce(Vector3 force, OriginalForceMode forceMode)
-    {/*
-            //Apply a force to this Rigidbody in direction of this GameObjects up axis
-            m_Rigidbody.AddForce(transform.up * m_Thrust);
-        */
+    public void AddForce(Vector2 force, OriginalForceMode forceMode)
+    {
+        switch (forceMode)
+        {
+            case OriginalForceMode.Force:
+                _velocity += force;
+                break;
+            //case OriginalForceMode.Acceleration:
+            //    Vector3.Lerp(transform.position, force, _accelerationSmoothing);
+            //    break;
+            //case OriginalForceMode.Impulse:
+            //    break;
+            //case OriginalForceMode.VelocityChange:
+            //    break;
+            default:
+                break;
+        }
+        
     }
 
-    public void MovePosition(Vector3 position)
-    {/*
-            //Store user input as a movement vector
-            Vector3 m_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-            //Apply the movement vector to the current position, which is
-            //multiplied by deltaTime and speed for a smooth MovePosition
-            m_Rigidbody.MovePosition(transform.position + m_Input * Time.deltaTime * m_Speed);
-        */
+    public void MovePosition(Vector3 newPosition)
+    {
+        transform.Translate(newPosition);
     }
 
     public bool CheckGround()
