@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Apply movement & fix Ragdoll IK & Hinges?
-
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private Rigidbody2D _playerRb;
-
-    [SerializeField]
-    private int _moveSpeed = 5000;
+    [SerializeField] private Rigidbody2D _playerRb;
+    [SerializeField] private OriginalRigidbody _playerOriginalRb;
+    [SerializeField] private int _moveSpeed = 5000;
 
     private float _xInput, _yInput;
     private Vector2 _moveVector;
@@ -34,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCharacter()
     {
-        _playerRb.AddForce(_moveVector * (_moveSpeed * Time.fixedDeltaTime), ForceMode2D.Force);
-        //print($"adding force: [{_moveVector}]");
+        _playerOriginalRb.AddForce(_moveVector * (_moveSpeed * Time.fixedDeltaTime), OriginalForceMode.Force);
+        //_playerRb.AddForce(_moveVector * (_moveSpeed * Time.fixedDeltaTime), ForceMode2D.Force);
     }
 }

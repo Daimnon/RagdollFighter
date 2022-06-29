@@ -775,7 +775,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a499108775731e4382ae03c65b25bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPlayer: {fileID: 2872366998233539134}
   _selfCollisionDetector: {fileID: 2066945186}
 --- !u!1 &1685511617924762509
 GameObject:
@@ -885,7 +884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a499108775731e4382ae03c65b25bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPlayer: {fileID: 2872366998233539134}
   _selfCollisionDetector: {fileID: 2066945186}
 --- !u!1 &1739673432188814755
 GameObject:
@@ -1410,6 +1408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerRb: {fileID: 7470384484764236083}
+  _playerOriginalRb: {fileID: 0}
   _moveSpeed: 5000
 --- !u!114 &2066945182
 MonoBehaviour:
@@ -1427,6 +1426,7 @@ MonoBehaviour:
   _maxHp: 100
   IsColliding: 0
   CurrentHp: 0
+  Dmg: 1
 --- !u!114 &2066945186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2027,8 +2027,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5551788473589646250}
-  - component: {fileID: 7470384484764236083}
   - component: {fileID: 7470384484764236082}
+  - component: {fileID: 7470384484764236083}
+  - component: {fileID: 4832396995684287448}
   m_Layer: 8
   m_Name: WeistBone
   m_TagString: Player
@@ -2054,27 +2055,6 @@ Transform:
   m_Father: {fileID: 1695263568050372451}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &7470384484764236083
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4972179091482258872}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.58574355
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
 --- !u!70 &7470384484764236082
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2091,6 +2071,59 @@ CapsuleCollider2D:
   m_Offset: {x: 0.475, y: 0}
   m_Size: {x: 1.3, y: 0.95}
   m_Direction: 1
+--- !u!50 &7470384484764236083
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972179091482258872}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 1
+  m_Mass: 0.58574355
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
+--- !u!114 &4832396995684287448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972179091482258872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da7e1fc7c7941446926a0db6ca3aa66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  _collider: {fileID: 7470384484764236082}
+  _groundCheckDistance: 0
+  _gravityModifier: 1
+  _accelerationSmoothing: 0
+  _velocity: {x: 0, y: 0}
+  _normal: {x: 0, y: 0}
+  _mass: 0
+  _drag: 0
+  _isGrounded: 0
+  _useGravity: 0
+  _isKinematic: 0
+  _freezPositionX: 0
+  _freezPositionY: 0
+  _freezPositionZ: 0
+  _freezRotationX: 0
+  _freezRotationY: 0
+  _freezRotationZ: 0
 --- !u!1 &5385306542748815781
 GameObject:
   m_ObjectHideFlags: 0
@@ -3197,7 +3230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a499108775731e4382ae03c65b25bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPlayer: {fileID: 2872366998233539134}
   _selfCollisionDetector: {fileID: 2066945186}
 --- !u!1 &7613506350783994817
 GameObject:
@@ -3842,5 +3874,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a499108775731e4382ae03c65b25bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPlayer: {fileID: 2872366998233539134}
   _selfCollisionDetector: {fileID: 2066945186}

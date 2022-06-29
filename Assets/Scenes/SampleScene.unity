@@ -24336,6 +24336,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RagdollStickman Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4832396995684287448, guid: b0350ce501799a344a8c6f8cd4eeb8b0, type: 3}
+      propertyPath: _gravityModifier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6147807684626675397, guid: b0350ce501799a344a8c6f8cd4eeb8b0, type: 3}
       propertyPath: m_RootOrder
       value: 3

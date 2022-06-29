@@ -52,8 +52,7 @@ public class OriginalRigidbody : MonoBehaviour
     public bool FreezRotationZ { get => _freezRotationZ; set => _freezRotationZ = value; }
     #endregion
 
-
-    bool testAddForce = false;
+    #region Monobehavior Callbacks
     public void Start()
     {
         _useGravity = true;
@@ -66,27 +65,14 @@ public class OriginalRigidbody : MonoBehaviour
         _freezRotationZ = false;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            testAddForce = true;
-        }
-    }
-
     private void FixedUpdate()
     {
-        if (testAddForce)
-        {
-            AddForce(new Vector2(1, 0), OriginalForceMode.Force);
-            testAddForce = false;
-        }
-
         ApplyGravity();
         UpdateKinematic();
         UpdateFreezings();
         transform.position += (Vector3)Velocity;
     }
+    #endregion
 
     #region Private Methods
     private void CalculateVelocity()
@@ -138,21 +124,21 @@ public class OriginalRigidbody : MonoBehaviour
     private void ApplyGravity()
     {
         if (_useGravity && !_isGrounded)
-            _velocity += Physics2D.gravity * _gravityModifier * Time.fixedDeltaTime;
+            _velocity += _gravityModifier * Time.fixedDeltaTime * Physics2D.gravity;
         else
             return;
     }
+    #endregion
 
-    private Vector2 GetNormal()
+    #region Public Methods
+    public Vector2 GetNormal()
     {
         Vector2 normal;
 
         normal = _velocity.normalized;
         return normal;
     }
-    #endregion
 
-    #region Public Methods
     public void AddForce(Vector2 force, OriginalForceMode forceMode)
     {
         switch (forceMode)
