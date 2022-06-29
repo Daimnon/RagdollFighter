@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _playerRb;
     [SerializeField] private OriginalRigidbody _playerOriginalRb;
-    [SerializeField] private int _moveSpeed = 5000;
+    [SerializeField] private int _moveSpeed = 1;
 
     private float _xInput, _yInput;
     private Vector2 _moveVector;
